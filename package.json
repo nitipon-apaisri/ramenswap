@@ -4,7 +4,7 @@
     "description": "Welcome to RamenSwap! RamenSwap is an experimental decentralised fiancé project.",
     "main": "index.js",
     "scripts": {
-        "test": "jest --watchAll --detectOpenHandles",
+        "test": "jest",
         "start": "nodemon index.js"
     },
     "repository": {
