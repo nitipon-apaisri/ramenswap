@@ -19,7 +19,7 @@ describe("Test all the wallet features and api:s", () => {
         expect(walletInfo).toBe(db.mockDataWallets[0]);
     });
     test("It should return amount of stable coin", () => {
-        const swapToken = transactions.swappingEthToStableCoin("0xETH", 200);
+        const swapToken = transactions.swapEthToStableCoin("0xETH", 200);
         expect(swapToken).toBe(200);
     });
 });
