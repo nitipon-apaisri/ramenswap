@@ -22,4 +22,8 @@ describe("Test all the wallet features and api:s", () => {
         const swapToken = transactions.swapEthToStableCoin("0xETH", 200);
         expect(swapToken).toBe(200);
     });
+    test("It should return amount of target token amount", () => {
+        const swapToken = transactions.swapEthToAnotherToken("0xETH", "0xSHIB", 100);
+        expect(swapToken).toBe(100);
+    });
 });
