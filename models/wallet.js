@@ -5,22 +5,13 @@ const getWallets = () => {
     return wallets.length;
 };
 
-const getWalletByEthAddress = (address) => {
-    const indexOfWallet = utils.findWalletIndex(address);
+const getAWalletByTokenAddress = (address) => {
+    const indexOfWallet = utils.findWalletByToken(address);
     const wallet = db.mockDataWallets[indexOfWallet];
     return wallet;
 };
 
-const getTheWalletInformationByEthAddress = () => {
-    const id = "0xETH";
-    const indexOfWallet = db.mockDataWallets.findIndex(
-        (wallet) => wallet.assets.coins[0].address == id
-    );
-    const wallet = db.mockDataWallets[indexOfWallet];
-    return wallet;
-};
 module.exports = {
     getWallets,
-    getWalletByEthAddress,
-    getTheWalletInformationByEthAddress,
+    getAWalletByTokenAddress,
 };

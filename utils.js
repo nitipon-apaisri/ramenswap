@@ -1,20 +1,21 @@
 const db = require("./database/wallets");
-const findWalletIndex = (address) => {
-    const indexOfWallet = db.mockDataWallets.findIndex(
-        (wallet) => wallet.assets.coins[0].address == address
+
+const findWalletByToken = (address) => {
+    const theWallet = db.mockDataWallets.findIndex((wallet) =>
+        wallet.assets.find((wallet) => wallet.address == address)
     );
-    return indexOfWallet;
+    return theWallet;
 };
-const findTokenIndexOfWallet = (ethAddress, tokenAddress) => {
-    const walletIndex = findWalletIndex(ethAddress);
-    const indexOfToken = db.mockDataWallets[walletIndex].assets.tokens.findIndex((r) => {
-        if (r.address == tokenAddress) {
-            return r;
-        }
-    });
-    return indexOfToken;
+
+const findTokenInWallet = (tokenAddress) => {
+    const indexOfWallet = findWalletByToken(tokenAddress);
+    const token = db.mockDataWallets[indexOfWallet].assets.findIndex(
+        (eth) => eth.address == tokenAddress
+    );
+    return token;
 };
+
 module.exports = {
-    findWalletIndex,
-    findTokenIndexOfWallet,
+    findWalletByToken,
+    findTokenInWallet,
 };

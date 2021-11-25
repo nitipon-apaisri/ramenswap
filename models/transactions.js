@@ -1,22 +1,19 @@
 const db = require("../database/wallets");
 const utils = require("../utils");
 
-const swapEthToStableCoin = (address, swapAmount) => {
-    const indexOfWallet = utils.findWalletIndex(address);
-    db.mockDataWallets[indexOfWallet].assets.coins[0].balance -= swapAmount;
-    db.mockDataWallets[indexOfWallet].assets.tokens[0].balance += swapAmount;
-    return db.mockDataWallets[0].assets.tokens[0].balance;
+const swapATokenToAnotherToken = (originAddress, tokenAddress, swapAmount) => {
+    const indexOfWallet = utils.findWalletByToken(originAddress);
+    const indexOfOriginToken = utils.findTokenInWallet(originAddress);
+    const indexOfDestinationToken = utils.findTokenInWallet(tokenAddress);
+    db.mockDataWallets[indexOfWallet].assets[indexOfOriginToken].balance -= swapAmount;
+    db.mockDataWallets[indexOfWallet].assets[indexOfDestinationToken].balance +=
+        swapAmount;
+    return db.mockDataWallets[0].assets[indexOfDestinationToken].balance;
 };
-
-const swapEthToAnotherToken = (ethAddress, tokenAddress, swapAmount) => {
-    const indexOfWallet = utils.findWalletIndex(ethAddress);
-    const indexOfToken = utils.findTokenIndexOfWallet(ethAddress, tokenAddress);
-    db.mockDataWallets[indexOfWallet].assets.coins[0].balance -= swapAmount;
-    db.mockDataWallets[indexOfWallet].assets.tokens[indexOfToken].balance += swapAmount;
-    return db.mockDataWallets[0].assets.tokens[indexOfToken].balance;
-};
+// const sendEthToAnotherWallet = (originEthAddress, destinationEthAddress) => {
+//     const originAddress = utils.findWalletIndex(originEthAddress);
+// };
 
 module.exports = {
-    swapEthToStableCoin,
-    swapEthToAnotherToken,
+    swapATokenToAnotherToken,
 };
