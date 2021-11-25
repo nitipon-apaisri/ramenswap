@@ -1,10 +1,12 @@
 const db = require("../database/wallets");
+const { InvalidBalance } = require("../errors");
 const utils = require("../utils");
 
 const swapATokenToAnotherToken = (originAddress, tokenAddress, swapAmount) => {
     const indexOfWallet = utils.findWalletByToken(originAddress);
     const indexOfOriginToken = utils.findTokenInWallet(originAddress);
     const indexOfDestinationToken = utils.findTokenInWallet(tokenAddress);
+    utils.validateBalance(originAddress, swapAmount);
     db.mockDataWallets[indexOfWallet].assets[indexOfOriginToken].balance -= swapAmount;
     db.mockDataWallets[indexOfWallet].assets[indexOfDestinationToken].balance +=
         swapAmount;
