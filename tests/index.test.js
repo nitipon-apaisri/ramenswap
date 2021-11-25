@@ -20,8 +20,15 @@ describe("Test all the wallet features and api:s", () => {
         const walletInfo = wallets.getAWalletByTokenAddress("0xETH");
         expect(walletInfo).toBe(db.mockDataWallets[0]);
     });
+});
+
+describe("Test akk the transaction features and api:s", () => {
     test("It should return an amount of swapping token amount", () => {
         const swapToken = transactions.swapATokenToAnotherToken("0xETH", "0xSHIB", 100);
         expect(swapToken).toBe(100);
+    });
+    test("It should return an amount of sending token amount", () => {
+        const swapToken = transactions.sendATokenToAnotherWallet("0xETH", "0xETH2", 100);
+        expect(swapToken).toBe(1100);
     });
 });
