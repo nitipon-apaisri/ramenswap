@@ -22,6 +22,7 @@ const sendATokenToAnotherWallet = (
     const destinationWallet = utils.findWalletByToken(destinationTokenAddress);
     const indexOfOriginToken = utils.findTokenInWallet(originTokenAddress);
     const indexOfDestinationToken = utils.findTokenInWallet(destinationTokenAddress);
+    utils.validateBalance(originTokenAddress, sendAmount);
     db.mockDataWallets[originWallet].assets[indexOfOriginToken].balance -= sendAmount;
     db.mockDataWallets[destinationWallet].assets[indexOfDestinationToken].balance +=
         sendAmount;

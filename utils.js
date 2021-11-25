@@ -17,10 +17,10 @@ const findTokenInWallet = (tokenAddress) => {
     return token;
 };
 
-const validateBalance = (tokenAddress, swapAmount) => {
+const validateBalance = (tokenAddress, tokenBalance) => {
     const wallet = findWalletByToken(tokenAddress);
     const token = findTokenInWallet(tokenAddress);
-    if (db.mockDataWallets[wallet].assets[token].balance < swapAmount)
+    if (db.mockDataWallets[wallet].assets[token].balance < tokenBalance)
         throw new InvalidBalance();
 };
 module.exports = {
