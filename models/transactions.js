@@ -6,9 +6,9 @@ const swapATokenToAnotherToken = (originAddress, tokenAddress, swapAmount) => {
     const indexOfOriginToken = utils.findTokenInWallet(originAddress);
     const indexOfDestinationToken = utils.findTokenInWallet(tokenAddress);
     utils.validateBalance(originAddress, swapAmount);
-    db.mockDataWallets[indexOfWallet].assets[indexOfOriginToken].balance -= swapAmount;
-    db.mockDataWallets[indexOfWallet].assets[indexOfDestinationToken].balance += swapAmount;
-    return db.mockDataWallets[0].assets[indexOfDestinationToken].balance;
+    db.wallets[indexOfWallet].assets[indexOfOriginToken].balance -= swapAmount;
+    db.wallets[indexOfWallet].assets[indexOfDestinationToken].balance += swapAmount;
+    return db.wallets[0].assets[indexOfDestinationToken].balance;
 };
 
 const sendATokenToAnotherWallet = (originTokenAddress, destinationTokenAddress, sendAmount) => {
@@ -17,9 +17,9 @@ const sendATokenToAnotherWallet = (originTokenAddress, destinationTokenAddress, 
     const indexOfOriginToken = utils.findTokenInWallet(originTokenAddress);
     const indexOfDestinationToken = utils.findTokenInWallet(destinationTokenAddress);
     utils.validateBalance(originTokenAddress, sendAmount);
-    db.mockDataWallets[originWallet].assets[indexOfOriginToken].balance -= sendAmount;
-    db.mockDataWallets[destinationWallet].assets[indexOfDestinationToken].balance += sendAmount;
-    return db.mockDataWallets[destinationWallet].assets[indexOfDestinationToken].balance;
+    db.wallets[originWallet].assets[indexOfOriginToken].balance -= sendAmount;
+    db.wallets[destinationWallet].assets[indexOfDestinationToken].balance += sendAmount;
+    return db.wallets[destinationWallet].assets[indexOfDestinationToken].balance;
 };
 
 module.exports = {

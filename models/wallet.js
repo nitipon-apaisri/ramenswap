@@ -36,7 +36,7 @@ const getWallets = () => {
 
 const getAWalletByTokenAddress = (address) => {
     const indexOfWallet = utils.findWalletByToken(address);
-    const wallet = db.mockDataWallets[indexOfWallet];
+    const wallet = db.wallets[indexOfWallet];
     return wallet;
 };
 

@@ -18,7 +18,7 @@ describe("Test all the wallet features and api:s", () => {
     });
     test("It should return the wallet information as an object", () => {
         const walletInfo = wallets.getAWalletByTokenAddress("0xETH");
-        expect(walletInfo).toBe(db.mockDataWallets[0]);
+        expect(walletInfo).toBe(db.wallets[0]);
     });
 });
 

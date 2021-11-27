@@ -1,5 +1,5 @@
 const wallets = [];
-const mockDataWallets = [
+const mockWallets = [
     {
         id: 1,
         assets: [
@@ -47,6 +47,6 @@ const mockDataWallets = [
 ];
 
 module.exports = {
-    mockDataWallets,
     wallets,
+    mockWallets,
 };

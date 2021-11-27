@@ -9,6 +9,16 @@ const getWallets = async (req, res, next) => {
     }
 };
 
+const getAWalletByTokenAddress = async (req, res, next) => {
+    const { tokenAddress } = req.params;
+    const wallet = walletsModel.getAWalletByTokenAddress(tokenAddress);
+    try {
+        res.json({ wallet: wallet });
+    } catch (err) {
+        next(err);
+    }
+};
+
 const createWallet = async (req, res, next) => {
     try {
         walletsModel.createWallet();
@@ -21,4 +31,5 @@ const createWallet = async (req, res, next) => {
 module.exports = {
     createWallet,
     getWallets,
+    getAWalletByTokenAddress,
 };
