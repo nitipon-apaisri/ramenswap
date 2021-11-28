@@ -51,7 +51,6 @@ const createWallet = () => {
 };
 
 const getWallets = () => {
-    db.sensitiveWalletInfo.forEach((r) => console.log(r));
     return db.wallets;
 };
 
