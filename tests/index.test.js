@@ -9,7 +9,7 @@ const request = supertest(app);
 describe("Test all the wallet features and api:s", () => {
     test("It should return total of the wallets", () => {
         const totalWallets = wallets.getWallets();
-        expect(totalWallets).toBe(2);
+        expect(totalWallets.length).toBe(0);
     });
     test("It should return token address from the wallet", () => {
         const theWallet = wallets.getAWalletByTokenAddress("0xETH");
@@ -18,7 +18,7 @@ describe("Test all the wallet features and api:s", () => {
     });
     test("It should return the wallet information as an object", () => {
         const walletInfo = wallets.getAWalletByTokenAddress("0xETH");
-        expect(walletInfo).toBe(db.mockDataWallets[0]);
+        expect(walletInfo).toBe(db.wallets[0]);
     });
 });
 
