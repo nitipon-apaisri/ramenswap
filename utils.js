@@ -21,6 +21,7 @@ const validateBalance = (tokenAddress, tokenBalance) => {
     const token = findTokenInWallet(tokenAddress);
     if (db.wallets[wallet].assets[token].balance < tokenBalance) throw new InvalidBalance();
 };
+
 module.exports = {
     findWalletByToken,
     findTokenInWallet,
