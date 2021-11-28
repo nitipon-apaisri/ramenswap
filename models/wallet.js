@@ -3,18 +3,22 @@ const db = require("../database/wallets");
 const utils = require("../utils");
 const randomWords = require("random-words");
 
-const walletModel = (ethAddress, ethPrivateKey, usdtAddress, usdtPrivateKey, recoveryPhrase) => {
+const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase) => {
     const publicWalletInfo = {
         assets: [
             {
-                name: "Ethereum",
-                address: ethAddress,
+                fullName: "Ethereum",
+                name: "ETH",
+                contractAddress: "",
                 balance: 0,
+                publicKey: ethPublicKey,
             },
             {
+                fullName: "US Dollar Tether",
                 name: "USDT",
-                address: usdtAddress,
+                contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
+                publicKey: usdtPublicKey,
             },
         ],
         supportNetworks: ["ETH"],
@@ -23,13 +27,19 @@ const walletModel = (ethAddress, ethPrivateKey, usdtAddress, usdtPrivateKey, rec
     const sensitiveInfo = {
         assets: [
             {
+                fullName: "Ethereum",
                 name: "Ethereum",
-                publicKey: ethAddress,
+                contractAddress: "",
+                balance: 0,
+                publicKey: ethPublicKey,
                 privateKey: ethPrivateKey,
             },
             {
+                fullName: "US Dollar Tether",
                 name: "USDT",
-                publicKey: usdtAddress,
+                contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+                balance: 0,
+                publicKey: usdtPublicKey,
                 privateKey: usdtPrivateKey,
             },
         ],
@@ -40,28 +50,60 @@ const walletModel = (ethAddress, ethPrivateKey, usdtAddress, usdtPrivateKey, rec
     db.sensitiveWalletInfo.push(sensitiveInfo);
 };
 
-const createWallet = () => {
-    const ethAddress = `0x${randomstring.generate(10)}`;
-    const usdtAddress = `0x${randomstring.generate(10)}`;
-    const ethPrivateKey = `0x${randomstring.generate(14)}`;
-    const usdtPrivateKey = `0x${randomstring.generate(14)}`;
-    const recoveryPhrase = randomWords(12);
-
-    walletModel(ethAddress, ethPrivateKey, usdtAddress, usdtPrivateKey, recoveryPhrase);
+const tokenModel = (tokenContractAddress, tokenFullName, tokenName, publicKey, privateKey) => {
+    if (privateKey === undefined) {
+        const token = {
+            fullName: tokenFullName,
+            name: tokenName,
+            contractAddress: tokenContractAddress,
+            balance: 0,
+            publicKey: publicKey,
+        };
+        return token;
+    } else {
+        const token = {
+            fullName: tokenFullName,
+            name: tokenName,
+            contractAddress: tokenContractAddress,
+            balance: 0,
+            publicKey: publicKey,
+            privateKey: privateKey,
+        };
+        return token;
+    }
 };
 
+const createWallet = () => {
+    const ethPublicKey = `0x${randomstring.generate(40)}`;
+    const usdtPublicKey = `0x${randomstring.generate(40)}`;
+    const ethPrivateKey = `0x${randomstring.generate(40)}`;
+    const usdtPrivateKey = `0x${randomstring.generate(40)}`;
+    const recoveryPhrase = randomWords(12);
+    walletModel(ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase);
+};
 const getWallets = () => {
     return db.wallets;
 };
 
-const getAWalletByTokenAddress = (address) => {
-    const indexOfWallet = utils.findWalletByToken(address);
+const getAWalletByTokenPublicKey = (publicKey) => {
+    const indexOfWallet = utils.findWalletByToken(publicKey);
     const wallet = db.wallets[indexOfWallet];
     return wallet;
 };
 
+const addToken = (ethPublicKey, tokenContractAddress, tokenFullName, tokenName) => {
+    const indexOfwallet = utils.findWalletByToken(ethPublicKey);
+    const tokenPublicKey = `0x${randomstring.generate(40)}`;
+    const tokenPrivatekey = `0x${randomstring.generate(40)}`;
+    const publicTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey);
+    //prettier-ignore
+    const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey, tokenPrivatekey);
+    db.wallets[indexOfwallet].assets.push(publicTokenInfo);
+    db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
+};
 module.exports = {
     getWallets,
-    getAWalletByTokenAddress,
+    getAWalletByTokenPublicKey,
     createWallet,
+    addToken,
 };
