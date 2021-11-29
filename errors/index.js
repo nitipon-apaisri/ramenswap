@@ -7,6 +7,7 @@ class InvalidBalance extends ErrorManager {
         this.errorCode = 400;
     }
 }
+
 class InvalidAddress extends ErrorManager {
     constructor() {
         super();
@@ -15,7 +16,26 @@ class InvalidAddress extends ErrorManager {
     }
 }
 
+class InvalidBody extends ErrorManager {
+    constructor() {
+        super();
+        this.message = "Invalid body";
+        this.errorCode = 400;
+    }
+}
+
+class ExistingToken extends ErrorManager {
+    constructor() {
+        super();
+        this.message = "Alread has token";
+        this.errorCode = 400;
+    }
+}
+
 module.exports = {
+    ErrorManager,
     InvalidBalance,
     InvalidAddress,
+    InvalidBody,
+    ExistingToken,
 };

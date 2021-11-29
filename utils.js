@@ -1,5 +1,5 @@
 const db = require("./database/wallets");
-const { InvalidBalance, InvalidAddress } = require("./errors");
+const { InvalidBalance, InvalidAddress, ExistingToken } = require("./errors/index");
 
 const findWalletByToken = (tokenPublicKey) => {
     const theWallet = db.wallets.findIndex((wallet) =>
@@ -24,8 +24,18 @@ const validateBalance = (tokenPublicKey, tokenBalance) => {
     if (db.wallets[wallet].assets[token].balance < tokenBalance) throw new InvalidBalance();
 };
 
+const validateTokenInWallet = (indexOfWallet, tokenContractAddress) => {
+    const token = db.wallets[indexOfWallet].assets.find((token) => token.contractAddress == tokenContractAddress);
+    if (token === undefined) {
+        return undefined;
+    } else {
+        throw new ExistingToken();
+    }
+};
+
 module.exports = {
     findWalletByToken,
     findTokenInWallet,
     validateBalance,
+    validateTokenInWallet,
 };

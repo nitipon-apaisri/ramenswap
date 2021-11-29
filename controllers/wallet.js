@@ -15,25 +15,24 @@ const getAWalletByTokenPublicKey = async (req, res, next) => {
     try {
         res.json({ wallet: wallet });
     } catch (err) {
-        console.log(err);
         next(err);
     }
 };
 
 const createWallet = async (req, res, next) => {
     try {
-        walletsModel.createWallet();
-        res.json({ msg: "Wallet created" });
+        const createWallet = walletsModel.createWallet();
+        res.json({ msg: createWallet });
     } catch (err) {
         next(err);
     }
 };
 
 const addToken = async (req, res, next) => {
+    const { ethPublicKey, tokenContractAddress, tokenFullName, tokenName } = req.body;
     try {
-        const { ethPublicKey, tokenContractAddress, tokenFullName, tokenName } = req.body;
-        walletsModel.addToken(ethPublicKey, tokenContractAddress, tokenFullName, tokenName);
-        res.json({ msg: "Token added" });
+        const addToken = walletsModel.addToken(ethPublicKey, tokenContractAddress, tokenFullName, tokenName);
+        res.json({ msg: addToken });
     } catch (err) {
         next(err);
     }

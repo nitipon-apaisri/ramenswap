@@ -2,13 +2,14 @@ const randomstring = require("randomstring");
 const db = require("../database/wallets");
 const utils = require("../utils");
 const randomWords = require("random-words");
+const { InvalidBody } = require("../errors/index");
 
 const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase) => {
     const publicWalletInfo = {
         assets: [
             {
-                fullName: "Ethereum",
-                name: "ETH",
+                name: "Ethereum",
+                symbol: "ETH",
                 contractAddress: "",
                 balance: 0,
                 publicKey: ethPublicKey,
@@ -80,7 +81,9 @@ const createWallet = () => {
     const usdtPrivateKey = `0x${randomstring.generate(40)}`;
     const recoveryPhrase = randomWords(12);
     walletModel(ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase);
+    return "Wallet created";
 };
+
 const getWallets = () => {
     return db.wallets;
 };
@@ -92,14 +95,20 @@ const getAWalletByTokenPublicKey = (publicKey) => {
 };
 
 const addToken = (ethPublicKey, tokenContractAddress, tokenFullName, tokenName) => {
-    const indexOfwallet = utils.findWalletByToken(ethPublicKey);
-    const tokenPublicKey = `0x${randomstring.generate(40)}`;
-    const tokenPrivatekey = `0x${randomstring.generate(40)}`;
-    const publicTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey);
     //prettier-ignore
-    const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey, tokenPrivatekey);
-    db.wallets[indexOfwallet].assets.push(publicTokenInfo);
-    db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
+    if(ethPublicKey === undefined || tokenContractAddress === undefined || tokenFullName === undefined || tokenName === undefined) throw new InvalidBody
+    const indexOfwallet = utils.findWalletByToken(ethPublicKey);
+    const validateTokenInWallet = utils.validateTokenInWallet(indexOfwallet, tokenContractAddress);
+    if (validateTokenInWallet === undefined) {
+        const tokenPublicKey = `0x${randomstring.generate(40)}`;
+        const tokenPrivatekey = `0x${randomstring.generate(40)}`;
+        const publicTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey);
+        //prettier-ignore
+        const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey, tokenPrivatekey);
+        db.wallets[indexOfwallet].assets.push(publicTokenInfo);
+        db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
+        return "Token added";
+    }
 };
 module.exports = {
     getWallets,
