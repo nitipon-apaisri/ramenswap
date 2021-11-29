@@ -8,15 +8,19 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     const publicWalletInfo = {
         assets: [
             {
-                name: "Ethereum",
                 symbol: "ETH",
-                contractAddress: "",
+                name: "Ethereum",
+                color: "#3C3C3D",
+                iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                contractAddress: "0x",
                 balance: 0,
                 publicKey: ethPublicKey,
             },
             {
-                fullName: "US Dollar Tether",
-                name: "USDT",
+                symbol: "USDT",
+                name: "Tether US Dollar",
+                color: "#22a079",
+                iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                 contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
                 publicKey: usdtPublicKey,
@@ -28,16 +32,20 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     const sensitiveInfo = {
         assets: [
             {
-                fullName: "Ethereum",
+                symbole: "ETH",
                 name: "Ethereum",
-                contractAddress: "",
+                color: "#3C3C3D",
+                iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                contractAddress: "0x",
                 balance: 0,
                 publicKey: ethPublicKey,
                 privateKey: ethPrivateKey,
             },
             {
-                fullName: "US Dollar Tether",
-                name: "USDT",
+                symbol: "USDT",
+                name: "Tether US Dollar",
+                color: "#22a079",
+                iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                 contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
                 publicKey: usdtPublicKey,
@@ -51,11 +59,13 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     db.sensitiveWalletInfo.push(sensitiveInfo);
 };
 
-const tokenModel = (tokenContractAddress, tokenFullName, tokenName, publicKey, privateKey) => {
+const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, publicKey, privateKey) => {
     if (privateKey === undefined) {
         const token = {
-            fullName: tokenFullName,
+            symbol: tokenSymbol,
             name: tokenName,
+            color: color,
+            iconUrl: iconUrl,
             contractAddress: tokenContractAddress,
             balance: 0,
             publicKey: publicKey,
@@ -63,8 +73,10 @@ const tokenModel = (tokenContractAddress, tokenFullName, tokenName, publicKey, p
         return token;
     } else {
         const token = {
-            fullName: tokenFullName,
+            symbol: tokenSymbol,
             name: tokenName,
+            color: color,
+            iconUrl: iconUrl,
             contractAddress: tokenContractAddress,
             balance: 0,
             publicKey: publicKey,
@@ -94,19 +106,26 @@ const getAWalletByTokenPublicKey = (publicKey) => {
     return wallet;
 };
 
-const addToken = (ethPublicKey, tokenContractAddress, tokenFullName, tokenName) => {
+const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl) => {
     //prettier-ignore
-    if(ethPublicKey === undefined || tokenContractAddress === undefined || tokenFullName === undefined || tokenName === undefined) throw new InvalidBody
+    if(tokenContractAddress === undefined || tokenName === undefined || tokenSymbol === undefined, color === undefined, iconUrl === undefined) throw new InvalidBody
     const indexOfwallet = utils.findWalletByToken(ethPublicKey);
     const validateTokenInWallet = utils.validateTokenInWallet(indexOfwallet, tokenContractAddress);
     if (validateTokenInWallet === undefined) {
         const tokenPublicKey = `0x${randomstring.generate(40)}`;
         const tokenPrivatekey = `0x${randomstring.generate(40)}`;
-        const publicTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey);
+        const publicTokenInfo = tokenModel(
+            tokenContractAddress,
+            tokenName,
+            tokenSymbol,
+            color,
+            iconUrl,
+            tokenPublicKey
+        );
         //prettier-ignore
-        const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenFullName, tokenName, tokenPublicKey, tokenPrivatekey);
-        db.wallets[indexOfwallet].assets.push(publicTokenInfo);
-        db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
+        const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
+        db.mock[indexOfwallet].assets.push(publicTokenInfo);
+        // db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
         return "Token added";
     }
 };

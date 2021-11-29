@@ -5,16 +5,16 @@ const mock = [
     {
         assets: [
             {
-                fullName: "Ethereum",
                 name: "Ethereum",
-                contractAddress: "",
-                balance: 0,
+                symbol: "Ethereum",
+                contractAddress: "0x",
+                balance: 1000,
                 publicKey: "0xETH",
                 privateKey: "0xETHP",
             },
             {
-                fullName: "US Dollar Tether",
-                name: "USDT",
+                name: "US Dollar Tether",
+                symbol: "USDT",
                 contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
                 publicKey: "0xUSDT",

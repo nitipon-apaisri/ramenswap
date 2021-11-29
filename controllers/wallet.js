@@ -29,9 +29,10 @@ const createWallet = async (req, res, next) => {
 };
 
 const addToken = async (req, res, next) => {
-    const { ethPublicKey, tokenContractAddress, tokenFullName, tokenName } = req.body;
+    const { ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl } = req.body;
     try {
-        const addToken = walletsModel.addToken(ethPublicKey, tokenContractAddress, tokenFullName, tokenName);
+        //prettier-ignore
+        const addToken = walletsModel.addToken(ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl,);
         res.json({ msg: addToken });
     } catch (err) {
         next(err);
