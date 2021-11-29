@@ -1,6 +1,5 @@
 const db = require("./database/wallets");
 const { InvalidBalance, InvalidAddress, ExistingToken } = require("./errors/index");
-
 const findWalletByToken = (tokenPublicKey) => {
     const theWallet = db.wallets.findIndex((wallet) =>
         wallet.assets.find((token) => token.publicKey === tokenPublicKey)
