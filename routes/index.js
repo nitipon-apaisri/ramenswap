@@ -1,8 +1,10 @@
 const { Router } = require("express");
-const walletController = require("../controllers/wallet");
+const walletsController = require("../controllers/wallet");
+const assetsController = require("../controllers/assets");
 const router = new Router();
 
-router.get("/wallets", walletController.getWallets);
-router.get("/wallets/:tokenPublicKey", walletController.getAWalletByTokenPublicKey);
-router.post("/wallets/create", walletController.createWallet);
+router.get("/wallets", walletsController.getWallets);
+router.get("/wallets/:tokenPublicKey", walletsController.getAWalletByTokenPublicKey);
+router.post("/wallets/create", walletsController.createWallet);
+router.get("/assets", assetsController.getAllAssets);
 module.exports = router;
