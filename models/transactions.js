@@ -2,10 +2,10 @@ const db = require("../database/wallets");
 const dbAssets = require("../database/assets");
 const utils = require("../utils");
 const wallet = require("./wallet");
-//prettier-ignore
-const swapATokenToAnotherToken = (originPublicKey, tokenContractAddress,  swapAmount) => {
-    const indexOfWallet = utils.findWalletByTokenPublicKey(originPublicKey);
-    const indexOfOriginToken = utils.findTokenInWalletByPublicKey(indexOfWallet, originPublicKey);
+
+const swapATokenToAnotherToken = (originTokenPublicKey, tokenContractAddress, swapAmount) => {
+    const indexOfWallet = utils.findWalletByTokenPublicKey(originTokenPublicKey);
+    const indexOfOriginToken = utils.findTokenInWalletByPublicKey(indexOfWallet, originTokenPublicKey);
     const validateTokenContractAddress = utils.validateTokenInWallet(indexOfWallet, tokenContractAddress);
     utils.validateBalance(indexOfWallet, indexOfOriginToken, swapAmount);
     db.mock[indexOfWallet].assets[indexOfOriginToken].balance -= swapAmount;
@@ -16,27 +16,27 @@ const swapATokenToAnotherToken = (originPublicKey, tokenContractAddress,  swapAm
     } else {
         //prettier-ignore
         const token = dbAssets.assets.find(contractAddress => contractAddress.contractAddress == tokenContractAddress)
-        wallet.addToken(originPublicKey, tokenContractAddress, token.name , token.symbol, token.color, token.iconUrl);
+        //prettier-ignore
+        wallet.addToken(originTokenPublicKey, tokenContractAddress, token.name, token.symbol, token.color, token.iconUrl);
         const indexOfDestinationToken = utils.findTokenInWalletByContractAddress(indexOfWallet, tokenContractAddress);
         db.mock[indexOfWallet].assets[indexOfDestinationToken].balance += swapAmount;
         return db.mock[indexOfWallet].assets;
     }
 };
 
-// console.log(swapATokenToAnotherToken("0xETH", "0x3155ba85d5f96b2d030a4966af206230e46849cb", 250));
-
-// const sendATokenToAnotherWallet = (originTokenPublicKey, destinationTokenPublicKey, sendAmount) => {
-//     const originWallet = utils.findWalletByToken(originTokenPublicKey);
-//     const destinationWallet = utils.findWalletByToken(destinationTokenPublicKey);
-//     const indexOfOriginToken = utils.findTokenInWallet(originTokenPublicKey);
-//     const indexOfDestinationToken = utils.findTokenInWallet(destinationTokenPublicKey);
-//     utils.validateBalance(originTokenPublicKey, sendAmount);
-//     db.wallets[originWallet].assets[indexOfOriginToken].balance -= sendAmount;
-//     db.wallets[destinationWallet].assets[indexOfDestinationToken].balance += sendAmount;
-//     return db.wallets[destinationWallet].assets[indexOfDestinationToken].balance;
-// };
+const sendATokenToAnotherWallet = (originTokenPublicKey, destinationTokenPublicKey, sendAmount) => {
+    const originWallet = utils.findWalletByTokenPublicKey(originTokenPublicKey);
+    const destinationWallet = utils.findWalletByTokenPublicKey(destinationTokenPublicKey);
+    const indexOfOriginToken = utils.findTokenInWalletByPublicKey(originWallet, originTokenPublicKey);
+    const indexOfDestinationToken = utils.findTokenInWalletByPublicKey(destinationWallet, destinationTokenPublicKey);
+    utils.validateBalance(originWallet, indexOfOriginToken, sendAmount);
+    db.mock[originWallet].assets[indexOfOriginToken].balance -= sendAmount;
+    db.mock[destinationWallet].assets[indexOfDestinationToken].balance += sendAmount;
+    return db.mock[destinationWallet].assets[indexOfDestinationToken];
+};
+console.log(sendATokenToAnotherWallet("0xETH", "0xETH2", 500));
 
 module.exports = {
     swapATokenToAnotherToken,
-    // sendATokenToAnotherWallet,
+    sendATokenToAnotherWallet,
 };
