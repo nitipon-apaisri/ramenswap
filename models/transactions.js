@@ -1,7 +1,7 @@
 const db = require("../database/wallets");
 const dbAssets = require("../database/assets");
 const utils = require("../utils");
-const wallet = require("./wallet");
+const wallet = require("./wallets");
 
 const swapATokenToAnotherToken = (originTokenPublicKey, tokenContractAddress, swapAmount) => {
     const indexOfWallet = utils.findWalletByTokenPublicKey(originTokenPublicKey);
