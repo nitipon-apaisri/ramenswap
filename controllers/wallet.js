@@ -32,5 +32,4 @@ module.exports = {
     createWallet,
     getWallets,
     getAWalletByTokenPublicKey,
-    addToken,
 };
