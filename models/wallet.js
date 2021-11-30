@@ -101,32 +101,25 @@ const getWallets = () => {
 };
 
 const getAWalletByTokenPublicKey = (publicKey) => {
-    const indexOfWallet = utils.findWalletByToken(publicKey);
+    const indexOfWallet = utils.findWalletByTokenPublicKey(publicKey);
     const wallet = db.wallets[indexOfWallet];
     return wallet;
 };
 
 const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl) => {
     //prettier-ignore
-    if(tokenContractAddress === undefined || tokenName === undefined || tokenSymbol === undefined, color === undefined, iconUrl === undefined) throw new InvalidBody
-    const indexOfwallet = utils.findWalletByToken(ethPublicKey);
+    if(tokenContractAddress === undefined || tokenName === undefined) throw new InvalidBody
+    const indexOfwallet = utils.findWalletByTokenPublicKey(ethPublicKey);
     const validateTokenInWallet = utils.validateTokenInWallet(indexOfwallet, tokenContractAddress);
     if (validateTokenInWallet === undefined) {
         const tokenPublicKey = `0x${randomstring.generate(40)}`;
         const tokenPrivatekey = `0x${randomstring.generate(40)}`;
-        const publicTokenInfo = tokenModel(
-            tokenContractAddress,
-            tokenName,
-            tokenSymbol,
-            color,
-            iconUrl,
-            tokenPublicKey
-        );
+        //prettier-ignore
+        const publicTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey);
         //prettier-ignore
         const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
         db.mock[indexOfwallet].assets.push(publicTokenInfo);
         // db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
-        return "Token added";
     }
 };
 module.exports = {
