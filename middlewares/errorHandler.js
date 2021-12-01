@@ -1,4 +1,4 @@
-const { ErrorManager } = require("../errors/index.js");
+const { ErrorManager } = require("../errors/index");
 
 function errorHandler(error, req, res, next) {
     if (error instanceof ErrorManager) {
