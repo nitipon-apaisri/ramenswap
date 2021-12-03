@@ -1,5 +1,19 @@
 const assets = [
     {
+        symbol: "ETH",
+        name: "Ethereum",
+        color: "#3C3C3D",
+        iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+        contractAddress: "0x",
+    },
+    {
+        symbol: "USDT",
+        name: "Tether US Dollar",
+        color: "#22a079",
+        iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
+        contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    },
+    {
         symbol: "UNI",
         name: "Uniswap",
         color: "#ff007a",
@@ -49,18 +63,18 @@ const assets = [
         contractAddress: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
     },
     {
-        symbol: "SNX",
-        name: "Synthetix Network",
-        color: "#90dce0",
-        iconUrl: "https://cdn.coinranking.com/c2WntZSPs/snx-synthetix.png",
-        contractAddress: "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
-    },
-    {
         symbol: "GT",
         name: "GateToken",
         color: "#de5959",
         iconUrl: "https://cdn.coinranking.com/tRE6BrzE0/GT[1].svg",
         contractAddress: "0x9d7630adf7ab0b0cb00af747db76864df0ec82e4",
+    },
+    {
+        symbol: "SNX",
+        name: "Synthetix Network",
+        color: "#90dce0",
+        iconUrl: "https://cdn.coinranking.com/c2WntZSPs/snx-synthetix.png",
+        contractAddress: "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
     },
     {
         symbol: "ZRX",
