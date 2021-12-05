@@ -1,7 +1,9 @@
 const db = require("./database/wallets");
 const { InvalidBalance, InvalidAddress, ExistingToken } = require("./errors/index");
 const findWalletByTokenPublicKey = (tokenPublicKey) => {
-    const theWallet = db.mock.findIndex((wallet) => wallet.assets.find((token) => token.publicKey === tokenPublicKey));
+    const theWallet = db.wallets.findIndex((wallet) =>
+        wallet.assets.find((token) => token.publicKey === tokenPublicKey)
+    );
     if (theWallet !== -1) {
         return theWallet;
     } else {

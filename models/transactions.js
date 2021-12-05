@@ -17,7 +17,7 @@ const swapATokenToAnotherToken = (originTokenPublicKey, tokenContractAddress, sw
         //prettier-ignore
         const token = dbAssets.assets.find(contractAddress => contractAddress.contractAddress == tokenContractAddress)
         //prettier-ignore
-        wallet.addToken(originTokenPublicKey, tokenContractAddress, token.name, token.symbol, token.color, token.iconUrl);
+        wallet.addToken(originTokenPublicKey, tokenContractAddress, token.name, token.symbol, token.color, token.iconUrl, token.currentPrice);
         const indexOfDestinationToken = utils.findTokenInWalletByContractAddress(indexOfWallet, tokenContractAddress);
         db.mock[indexOfWallet].assets[indexOfDestinationToken].balance += swapAmount;
         return db.mock[indexOfWallet].assets;
@@ -34,7 +34,6 @@ const sendATokenToAnotherWallet = (originTokenPublicKey, destinationTokenPublicK
     db.mock[destinationWallet].assets[indexOfDestinationToken].balance += sendAmount;
     return db.mock[destinationWallet].assets[indexOfDestinationToken];
 };
-console.log(sendATokenToAnotherWallet("0xETH", "0xETH2", 500));
 
 module.exports = {
     swapATokenToAnotherToken,

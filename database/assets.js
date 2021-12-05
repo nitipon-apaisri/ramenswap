@@ -5,6 +5,7 @@ const assets = [
         color: "#3C3C3D",
         iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
         contractAddress: "0x",
+        currentPrice: 4000,
     },
     {
         symbol: "USDT",
@@ -12,6 +13,7 @@ const assets = [
         color: "#22a079",
         iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
         contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        currentPrice: 1,
     },
     {
         symbol: "UNI",
@@ -19,6 +21,7 @@ const assets = [
         color: "#ff007a",
         iconUrl: "https://cdn.coinranking.com/1heSvUgtl/uniswap-v2.svg?size=48x48",
         contractAddress: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+        currentPrice: 20,
     },
     {
         symbol: "1INCH",
@@ -26,6 +29,7 @@ const assets = [
         color: "#ed6758",
         iconUrl: "https://cdn.coinranking.com/OypO2Qln6/1inch_token.png",
         contractAddress: "0x111111111117dc0aa78b770fa6a738034120c302",
+        currentPrice: 2.5,
     },
     {
         symbol: "RUNE",
@@ -33,6 +37,7 @@ const assets = [
         color: "#0EAAB7",
         iconUrl: "https://cdn.coinranking.com/tU7Skyia9/ThorChain[1].svg",
         contractAddress: "0x3155ba85d5f96b2d030a4966af206230e46849cb",
+        currentPrice: 8,
     },
     {
         symbol: "LRC",
@@ -40,6 +45,7 @@ const assets = [
         color: "#000000",
         iconUrl: "https://cdn.coinranking.com/Hyi4YJz3M/lrc.svg",
         contractAddress: "0xbbbbca6a901c926f240b89eacb641d8aec7aeafd",
+        currentPrice: 2,
     },
     {
         symbol: "WAVES",
@@ -47,6 +53,7 @@ const assets = [
         color: "#0056FF",
         iconUrl: "https://cdn.coinranking.com/B1tzRbyMz/waves.svg",
         contractAddress: "0x1cf4592ebffd730c7dc92c1bdffdfc3b9efcf29a",
+        currentPrice: 17,
     },
     {
         symbol: "CRV",
@@ -54,6 +61,7 @@ const assets = [
         color: "#0030ff",
         iconUrl: "https://cdn.coinranking.com/89clXLSu2/curve-dao-token.svg",
         contractAddress: "0xD533a949740bb3306d119CC777fa900bA034cd52",
+        currentPrice: 3.5,
     },
     {
         symbol: "SUSHI",
@@ -61,6 +69,7 @@ const assets = [
         color: "#b06b2e",
         iconUrl: "https://cdn.coinranking.com/eKKejWkdo/sushiswap.png",
         contractAddress: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
+        currentPrice: 5.7,
     },
     {
         symbol: "GT",
@@ -68,6 +77,7 @@ const assets = [
         color: "#de5959",
         iconUrl: "https://cdn.coinranking.com/tRE6BrzE0/GT[1].svg",
         contractAddress: "0x9d7630adf7ab0b0cb00af747db76864df0ec82e4",
+        currentPrice: 6.15,
     },
     {
         symbol: "SNX",
@@ -75,6 +85,7 @@ const assets = [
         color: "#90dce0",
         iconUrl: "https://cdn.coinranking.com/c2WntZSPs/snx-synthetix.png",
         contractAddress: "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
+        currentPrice: 5.78,
     },
     {
         symbol: "ZRX",
@@ -82,6 +93,7 @@ const assets = [
         color: "#595b5b",
         iconUrl: "https://cdn.coinranking.com/Hy7oqBSFW/zrx.svg",
         contractAddress: "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        currentPrice: 0.87,
     },
 ];
 

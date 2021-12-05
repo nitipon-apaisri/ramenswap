@@ -2,10 +2,12 @@ const randomstring = require("randomstring");
 const db = require("../database/wallets");
 const utils = require("../utils");
 const randomWords = require("random-words");
-const { InvalidBody } = require("../errors/index");
+const { InvalidBody, NoWallets } = require("../errors/index");
 
-const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase) => {
+//prettier-ignore
+const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase, password, currentPrice) => {
     const publicWalletInfo = {
+        password: password,
         assets: [
             {
                 symbol: "ETH",
@@ -13,7 +15,8 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 color: "#3C3C3D",
                 iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                 contractAddress: "0x",
-                balance: 0,
+                balance: 1000,
+                currentPrice: 4000,
                 publicKey: ethPublicKey,
             },
             {
@@ -23,6 +26,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                 contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
+                currentPrice: 1,
                 publicKey: usdtPublicKey,
             },
         ],
@@ -30,6 +34,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     };
 
     const sensitiveInfo = {
+        password: password,
         assets: [
             {
                 symbole: "ETH",
@@ -38,6 +43,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 iconUrl: "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                 contractAddress: "0x",
                 balance: 0,
+                currentPrice: 4000,
                 publicKey: ethPublicKey,
                 privateKey: ethPrivateKey,
             },
@@ -48,6 +54,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                 contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
                 balance: 0,
+                currentPrice: 1,
                 publicKey: usdtPublicKey,
                 privateKey: usdtPrivateKey,
             },
@@ -59,7 +66,16 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     db.sensitiveWalletInfo.push(sensitiveInfo);
 };
 
-const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, publicKey, privateKey) => {
+const tokenModel = (
+    tokenContractAddress,
+    tokenName,
+    tokenSymbol,
+    color,
+    iconUrl,
+    currentPrice,
+    publicKey,
+    privateKey
+) => {
     if (privateKey === undefined) {
         const token = {
             symbol: tokenSymbol,
@@ -68,6 +84,7 @@ const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl
             iconUrl: iconUrl,
             contractAddress: tokenContractAddress,
             balance: 0,
+            currentPrice: currentPrice,
             publicKey: publicKey,
         };
         return token;
@@ -79,6 +96,7 @@ const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl
             iconUrl: iconUrl,
             contractAddress: tokenContractAddress,
             balance: 0,
+            currentPrice: currentPrice,
             publicKey: publicKey,
             privateKey: privateKey,
         };
@@ -86,18 +104,22 @@ const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl
     }
 };
 
-const createWallet = () => {
+const createWallet = (password) => {
     const ethPublicKey = `0x${randomstring.generate(40)}`;
     const usdtPublicKey = `0x${randomstring.generate(40)}`;
     const ethPrivateKey = `0x${randomstring.generate(40)}`;
     const usdtPrivateKey = `0x${randomstring.generate(40)}`;
     const recoveryPhrase = randomWords(12);
-    walletModel(ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase);
+    walletModel(ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase, password);
     return "Wallet created";
 };
 
 const getWallets = () => {
-    return db.wallets;
+    if (db.wallets.length === 0) {
+        throw new NoWallets();
+    } else {
+        return db.wallets;
+    }
 };
 
 const getAWalletByTokenPublicKey = (publicKey) => {
@@ -106,7 +128,7 @@ const getAWalletByTokenPublicKey = (publicKey) => {
     return wallet;
 };
 
-const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl) => {
+const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice) => {
     //prettier-ignore
     if(tokenContractAddress === undefined || tokenName === undefined) throw new InvalidBody
     const indexOfwallet = utils.findWalletByTokenPublicKey(ethPublicKey);
@@ -115,7 +137,7 @@ const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, co
         const tokenPublicKey = `0x${randomstring.generate(40)}`;
         const tokenPrivatekey = `0x${randomstring.generate(40)}`;
         //prettier-ignore
-        const publicTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey);
+        const publicTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice, tokenPublicKey, tokenPrivatekey);
         //prettier-ignore
         // const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
         db.mock[indexOfwallet].assets.push(publicTokenInfo);

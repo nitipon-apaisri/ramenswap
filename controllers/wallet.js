@@ -1,11 +1,11 @@
 const walletsModel = require("../models/wallets");
 
 const getWallets = async (req, res, next) => {
-    const wallets = walletsModel.getWallets();
-    if (wallets.length !== 0) {
-        res.json({ data: wallets });
-    } else {
-        res.json({ msg: "No wallet" });
+    try {
+        const wallets = walletsModel.getWallets();
+        res.json(wallets);
+    } catch (err) {
+        next(err);
     }
 };
 
@@ -20,8 +20,9 @@ const getAWalletByTokenPublicKey = async (req, res, next) => {
 };
 
 const createWallet = async (req, res, next) => {
+    const { password } = req.body;
     try {
-        const createWallet = walletsModel.createWallet();
+        const createWallet = walletsModel.createWallet(password);
         res.json({ msg: createWallet });
     } catch (err) {
         next(err);

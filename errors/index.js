@@ -15,6 +15,13 @@ class InvalidAddress extends ErrorManager {
         this.errorCode = 404;
     }
 }
+class NoWallets extends ErrorManager {
+    constructor() {
+        super();
+        this.message = "No Wallets";
+        this.errorCode = 404;
+    }
+}
 
 class InvalidBody extends ErrorManager {
     constructor() {
@@ -38,4 +45,5 @@ module.exports = {
     InvalidAddress,
     InvalidBody,
     ExistingToken,
+    NoWallets,
 };
