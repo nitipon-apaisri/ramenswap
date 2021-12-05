@@ -11,7 +11,7 @@ const findWalletByTokenPublicKey = (tokenPublicKey) => {
     }
 };
 const findWalletByTokenContractAddress = (tokenContractAddress) => {
-    const theWallet = db.mock.findIndex((wallet) =>
+    const theWallet = db.wallets.findIndex((wallet) =>
         wallet.assets.find((token) => token.contractAddress === tokenContractAddress)
     );
     if (theWallet !== -1) {
@@ -22,7 +22,7 @@ const findWalletByTokenContractAddress = (tokenContractAddress) => {
 };
 
 const validateTokenInWallet = (indexOfWallet, tokenContractAddress) => {
-    const token = db.mock[indexOfWallet].assets.find((token) => token.contractAddress == tokenContractAddress);
+    const token = db.wallets[indexOfWallet].assets.find((token) => token.contractAddress == tokenContractAddress);
     if (token === undefined) {
         return undefined;
     } else {
@@ -31,16 +31,16 @@ const validateTokenInWallet = (indexOfWallet, tokenContractAddress) => {
 };
 
 const findTokenInWalletByPublicKey = (indexOfWallet, tokenPublicKey) => {
-    const token = db.mock[indexOfWallet].assets.findIndex((token) => token.publicKey == tokenPublicKey);
+    const token = db.wallets[indexOfWallet].assets.findIndex((token) => token.publicKey == tokenPublicKey);
     return token;
 };
 const findTokenInWalletByContractAddress = (indexOfWallet, tokenContractAddress) => {
-    const token = db.mock[indexOfWallet].assets.findIndex((token) => token.contractAddress == tokenContractAddress);
+    const token = db.wallets[indexOfWallet].assets.findIndex((token) => token.contractAddress == tokenContractAddress);
     return token;
 };
 
 const validateBalance = (indexOfWallet, indexOfOriginToken, tokenBalance) => {
-    if (db.mock[indexOfWallet].assets[indexOfOriginToken].balance < tokenBalance) throw new InvalidBalance();
+    if (db.wallets[indexOfWallet].assets[indexOfOriginToken].balance < tokenBalance) throw new InvalidBalance();
 };
 
 module.exports = {

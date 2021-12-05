@@ -139,9 +139,9 @@ const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, co
         //prettier-ignore
         const publicTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice, tokenPublicKey, tokenPrivatekey);
         //prettier-ignore
-        // const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
-        db.mock[indexOfwallet].assets.push(publicTokenInfo);
-        // db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
+        const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
+        db.wallets[indexOfwallet].assets.push(publicTokenInfo);
+        db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
     }
 };
 module.exports = {
