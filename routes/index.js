@@ -9,4 +9,5 @@ router.get("/wallets/:tokenPublicKey", walletsController.getAWalletByTokenPublic
 router.post("/wallets/create", walletsController.createWallet);
 router.get("/assets", assetsController.getAllAssets);
 router.post("/transactions/swapToken", transactionController.swapToken);
+router.get("/transactions", transactionController.allTransactions);
 module.exports = router;

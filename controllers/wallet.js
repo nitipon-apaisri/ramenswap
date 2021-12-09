@@ -23,7 +23,7 @@ const createWallet = async (req, res, next) => {
     const { password } = req.body;
     try {
         const createWallet = walletsModel.createWallet(password);
-        res.json({ msg: createWallet });
+        res.json({ msg: "Wallet created!", wallet: createWallet });
     } catch (err) {
         next(err);
     }

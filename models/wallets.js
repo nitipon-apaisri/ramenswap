@@ -65,41 +65,31 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
     db.wallets.push(publicWalletInfo);
     db.sensitiveWalletInfo.push(sensitiveInfo);
 };
-
-const tokenModel = (
-    tokenContractAddress,
-    tokenName,
-    tokenSymbol,
-    color,
-    iconUrl,
-    currentPrice,
-    publicKey,
-    privateKey
-) => {
-    if (privateKey === undefined) {
-        const token = {
-            symbol: tokenSymbol,
-            name: tokenName,
-            color: color,
-            iconUrl: iconUrl,
-            contractAddress: tokenContractAddress,
-            balance: 0,
-            currentPrice: currentPrice,
-            publicKey: publicKey,
-        };
+//prettier-ignore
+const tokenModel = (tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice, publicKey, privateKey
+    ) => {
+        if (privateKey === undefined) {
+        const token = { 
+            symbol: tokenSymbol, 
+            name: tokenName, 
+            color: color, 
+            iconUrl: iconUrl, 
+            contractAddress: tokenContractAddress, 
+            balance: 0, 
+            currentPrice: currentPrice, 
+            publicKey: publicKey,};
         return token;
     } else {
-        const token = {
-            symbol: tokenSymbol,
-            name: tokenName,
-            color: color,
-            iconUrl: iconUrl,
-            contractAddress: tokenContractAddress,
-            balance: 0,
-            currentPrice: currentPrice,
-            publicKey: publicKey,
-            privateKey: privateKey,
-        };
+        const token = { 
+            symbol: tokenSymbol, 
+            name: tokenName, 
+            color: color, 
+            iconUrl: iconUrl, 
+            contractAddress: tokenContractAddress, 
+            balance: 0, 
+            currentPrice: currentPrice, 
+            publicKey: publicKey, 
+            privateKey: privateKey,};
         return token;
     }
 };
@@ -111,7 +101,7 @@ const createWallet = (password) => {
     const usdtPrivateKey = `0x${randomstring.generate(40)}`;
     const recoveryPhrase = randomWords(12);
     walletModel(ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey, recoveryPhrase, password);
-    return "Wallet created";
+    return db.wallets[db.wallets.length - 1];
 };
 
 const getWallets = () => {
@@ -128,25 +118,9 @@ const getAWalletByTokenPublicKey = (publicKey) => {
     return wallet;
 };
 
-const addToken = (ethPublicKey, tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice) => {
-    //prettier-ignore
-    if(tokenContractAddress === undefined || tokenName === undefined) throw new InvalidBody
-    const indexOfwallet = utils.findWalletByTokenPublicKey(ethPublicKey);
-    const validateTokenInWallet = utils.validateTokenInWallet(indexOfwallet, tokenContractAddress);
-    if (validateTokenInWallet === undefined) {
-        const tokenPublicKey = `0x${randomstring.generate(40)}`;
-        const tokenPrivatekey = `0x${randomstring.generate(40)}`;
-        //prettier-ignore
-        const publicTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, currentPrice, tokenPublicKey, tokenPrivatekey);
-        //prettier-ignore
-        const sensitiveTokenInfo = tokenModel(tokenContractAddress, tokenName, tokenSymbol, color, iconUrl, tokenPublicKey, tokenPrivatekey);
-        db.wallets[indexOfwallet].assets.push(publicTokenInfo);
-        db.sensitiveWalletInfo[indexOfwallet].assets.push(sensitiveTokenInfo);
-    }
-};
 module.exports = {
     getWallets,
     getAWalletByTokenPublicKey,
     createWallet,
-    addToken,
+    tokenModel,
 };
