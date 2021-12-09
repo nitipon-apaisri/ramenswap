@@ -5,12 +5,12 @@ const wallet = require("./wallets");
 const randomstring = require("randomstring");
 const randomWords = require("random-words");
 const dbTransactions = require("../database/transactions");
-
 const toExchange = (originTokenPublicKey, originTokenInput) => {
     const transaction = {
         sender: originTokenPublicKey,
         receiver: "RamenSwap",
         amount: originTokenInput,
+        timeStamp: Date.now(),
     };
     return transaction;
 };
@@ -20,6 +20,7 @@ const fromExchange = (receiverAddress, amount) => {
         sender: "RamenSwap",
         receiver: receiverAddress,
         amount: amount,
+        timeStamp: Date.now(),
     };
     return transaction;
 };

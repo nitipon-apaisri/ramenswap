@@ -2,8 +2,8 @@ const transactionModel = require("../models/transactions");
 
 const allTransactions = (req, res, next) => {
     try {
-        const allTransactions = transactionModel.allTransactions();
-        res.json({ allTransactions });
+        const transactions = transactionModel.allTransactions();
+        res.json({ transactions });
     } catch {
         next(err);
     }
