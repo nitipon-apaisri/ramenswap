@@ -5,21 +5,23 @@ const wallet = require("./wallets");
 const randomstring = require("randomstring");
 const randomWords = require("random-words");
 const dbTransactions = require("../database/transactions");
-const toExchange = (originTokenPublicKey, originTokenInput) => {
+const toExchange = (originTokenPublicKey, originTokenInput, currency) => {
     const transaction = {
         sender: originTokenPublicKey,
         receiver: "RamenSwap",
         amount: originTokenInput,
+        currency: currency,
         timeStamp: Date.now(),
     };
     return transaction;
 };
 
-const fromExchange = (receiverAddress, amount) => {
+const fromExchange = (receiverAddress, amount, currency) => {
     const transaction = {
         sender: "RamenSwap",
         receiver: receiverAddress,
         amount: amount,
+        currency: currency,
         timeStamp: Date.now(),
     };
     return transaction;
@@ -33,14 +35,16 @@ const swapATokenToAnotherToken = (originTokenPublicKey, tokenContractAddress, or
     const indexOfWallet = utils.findWalletByTokenPublicKey(originTokenPublicKey);
     const indexOfOriginToken = utils.findTokenInWalletByPublicKey(indexOfWallet, originTokenPublicKey);
     const validateTokenContractAddress = utils.validateTokenInWallet(indexOfWallet, tokenContractAddress);
-    const toExchangeTransaction = toExchange(originTokenPublicKey, originTokenInput);
+    //prettier-ignore
+    const toExchangeTransaction = toExchange(originTokenPublicKey, originTokenInput, db.wallets[indexOfWallet].assets[indexOfOriginToken].symbol
+    );
     dbTransactions.transactions.push(toExchangeTransaction);
     utils.validateBalance(indexOfWallet, indexOfOriginToken, originTokenInput);
     db.wallets[indexOfWallet].assets[indexOfOriginToken].balance -= originTokenInput;
     if (validateTokenContractAddress !== undefined) {
         const indexOfDestinationToken = utils.findTokenInWalletByContractAddress(indexOfWallet, tokenContractAddress);
         //prettier-ignore
-        const fromExchangeTransaction = fromExchange(db.wallets[indexOfWallet].assets[indexOfDestinationToken].publicKey,swapAmount);
+        const fromExchangeTransaction = fromExchange(db.wallets[indexOfWallet].assets[indexOfDestinationToken].publicKey,swapAmount,db.wallets[indexOfWallet].assets[indexOfOriginToken].symbol);
         dbTransactions.transactions.push(fromExchangeTransaction);
         db.wallets[indexOfWallet].assets[indexOfDestinationToken].balance += swapAmount;
         return db.wallets[indexOfWallet].assets;
@@ -54,7 +58,7 @@ const swapATokenToAnotherToken = (originTokenPublicKey, tokenContractAddress, or
         //prettier-ignore
         const sensitiveTokenInfo = wallet.tokenModel(tokenContractAddress, token.name, token.symbol, token.color, token.iconUrl, tokenPublicKey, tokenPrivatekey);
         //prettier-ignore
-        const fromExchangeTransaction = fromExchange(publicTokenInfo.publicKey,swapAmount);
+        const fromExchangeTransaction = fromExchange(publicTokenInfo.publicKey,swapAmount, publicTokenInfo.symbol);
         dbTransactions.transactions.push(fromExchangeTransaction);
         db.wallets[indexOfWallet].assets.push(publicTokenInfo);
         db.sensitiveWalletInfo[indexOfWallet].assets.push(sensitiveTokenInfo);

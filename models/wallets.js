@@ -10,6 +10,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
         password: password,
         assets: [
             {
+                "uuid": "razxDUgYGNAdQ",
                 symbol: "ETH",
                 name: "Ethereum",
                 color: "#3C3C3D",
@@ -20,6 +21,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 publicKey: ethPublicKey,
             },
             {
+                uuid: "HIVsRcGKkPFtW",
                 symbol: "USDT",
                 name: "Tether US Dollar",
                 color: "#22a079",
@@ -37,6 +39,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
         password: password,
         assets: [
             {
+                "uuid": "razxDUgYGNAdQ",
                 symbole: "ETH",
                 name: "Ethereum",
                 color: "#3C3C3D",
@@ -48,6 +51,7 @@ const walletModel = (ethPublicKey, ethPrivateKey, usdtPublicKey, usdtPrivateKey,
                 privateKey: ethPrivateKey,
             },
             {
+                uuid: "HIVsRcGKkPFtW",
                 symbol: "USDT",
                 name: "Tether US Dollar",
                 color: "#22a079",

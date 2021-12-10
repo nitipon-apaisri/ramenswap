@@ -1,5 +1,6 @@
 const assets = [
     {
+        uuid: "razxDUgYGNAdQ",
         symbol: "ETH",
         name: "Ethereum",
         color: "#3C3C3D",
@@ -8,6 +9,7 @@ const assets = [
         currentPrice: 4000,
     },
     {
+        uuid: "HIVsRcGKkPFtW",
         symbol: "USDT",
         name: "Tether US Dollar",
         color: "#22a079",
@@ -16,6 +18,7 @@ const assets = [
         currentPrice: 1,
     },
     {
+        uuid: "_H5FVG9iW",
         symbol: "UNI",
         name: "Uniswap",
         color: "#ff007a",
@@ -24,6 +27,7 @@ const assets = [
         currentPrice: 20,
     },
     {
+        uuid: "lD9digIOk",
         symbol: "1INCH",
         name: "1inch Token",
         color: "#ed6758",
@@ -32,6 +36,7 @@ const assets = [
         currentPrice: 2.5,
     },
     {
+        uuid: "ybmU-kKU",
         symbol: "RUNE",
         name: "THORChain",
         color: "#0EAAB7",
@@ -40,6 +45,7 @@ const assets = [
         currentPrice: 8,
     },
     {
+        uuid: "Au8mNo2ZIlJfL",
         symbol: "LRC",
         name: "Loopring",
         color: "#000000",
@@ -48,6 +54,7 @@ const assets = [
         currentPrice: 2,
     },
     {
+        uuid: "J8xX4Fc9PxEat",
         symbol: "WAVES",
         name: "Waves",
         color: "#0056FF",
@@ -56,6 +63,7 @@ const assets = [
         currentPrice: 17,
     },
     {
+        uuid: "QGbUTVMjG",
         symbol: "CRV",
         name: "Curve DAO Token",
         color: "#0030ff",
@@ -64,6 +72,7 @@ const assets = [
         currentPrice: 3.5,
     },
     {
+        uuid: "ql3Jj4Tge",
         symbol: "SUSHI",
         name: "SUSHI",
         color: "#b06b2e",
@@ -72,6 +81,7 @@ const assets = [
         currentPrice: 5.7,
     },
     {
+        uuid: "t7m8DZVyMsAu",
         symbol: "GT",
         name: "GateToken",
         color: "#de5959",
@@ -80,6 +90,7 @@ const assets = [
         currentPrice: 6.15,
     },
     {
+        uuid: "sgxZRXbK0FDc",
         symbol: "SNX",
         name: "Synthetix Network",
         color: "#90dce0",
@@ -88,6 +99,7 @@ const assets = [
         currentPrice: 5.78,
     },
     {
+        uuid: "jWvjEFGAtnhWN",
         symbol: "ZRX",
         name: "0x",
         color: "#595b5b",
